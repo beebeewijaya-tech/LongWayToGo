@@ -8,22 +8,28 @@
 import SwiftUI
 
 struct MainScreen: View {
+    
+    // MARK: - ViewModel
     @StateObject var pageStateVM: PageStateViewModel = PageStateViewModel()
+    @StateObject var questVM: QuestViewModel = QuestViewModel()
     
     var body: some View {
         ZStack {
             LinearGradient(colors: [Color("MapNavy"), Color("DeepNight")], startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea(.all)
-            
-            VStack {
-                switch pageStateVM.state {
-                case .home:
-                    HomeScreen()
-                default:
-                    Text("Hello world")
+                .overlay {
+                    Image("grid_bg")
                 }
+            
+            switch pageStateVM.state {
+            case .home:
+                HomeScreen()
+            default:
+                Text("Hello world")
             }
         }
+        .environmentObject(pageStateVM)
+        .environmentObject(questVM)
     }
 }
 
