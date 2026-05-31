@@ -17,6 +17,8 @@ class PageStateViewModel: ObservableObject {
     @Published var state: PageState = .home
     
     func setState(_ state: PageState) {
-        self.state = state
+        withAnimation(.easeInOut(duration: 0.3)) {
+            self.state = state
+        }
     }
 }

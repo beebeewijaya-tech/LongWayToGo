@@ -24,6 +24,10 @@ struct MainScreen: View {
             switch pageStateVM.state {
             case .home:
                 HomeScreen()
+                    .transition(.scale.combined(with: .opacity))
+            case .anniversary:
+                AnniversaryScreen()
+                    .transition(.scale.combined(with: .opacity))
             default:
                 Text("Hello world")
             }

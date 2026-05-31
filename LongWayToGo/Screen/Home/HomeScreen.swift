@@ -11,6 +11,7 @@ import SwiftUI
 struct HomeScreen: View {
     
     // MARK: - ViewModel
+    @EnvironmentObject private var pageStateVM: PageStateViewModel
     @EnvironmentObject private var questVM: QuestViewModel
     
     // MARK: - State
@@ -106,7 +107,7 @@ struct HomeScreen: View {
                     .padding(.bottom, 16)
                 
                 AppButton(label: "Answer to fly", style: .secondary) {
-                    
+                    questVM.progress = 1
                 }
             }
             .padding(24)
@@ -118,6 +119,11 @@ struct HomeScreen: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding()
         .padding(.horizontal, 20)
+        .onChange(of: questVM.progress) { oldValue, newValue in
+            if newValue == 1 {
+                pageStateVM.setState(.anniversary)
+            }
+        }
     }
 }
 
@@ -131,5 +137,6 @@ struct HomeScreen: View {
         
         HomeScreen()
     }
+    .environmentObject(PageStateViewModel())
     .environmentObject(QuestViewModel())
 }
