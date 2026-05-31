@@ -28,8 +28,9 @@ struct MainScreen: View {
             case .anniversary:
                 AnniversaryScreen()
                     .transition(.scale.combined(with: .opacity))
-            default:
-                Text("Hello world")
+            case .failed:
+                FailedScreen()
+                    .transition(.scale.combined(with: .opacity))
             }
         }
         .environmentObject(pageStateVM)
