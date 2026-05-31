@@ -43,7 +43,7 @@ struct AnniversaryScreen: View {
                             .monospaced()
                     }
                     .padding(.bottom, 20)
-                    Text("Excellent · 5 questions · you made it!")
+                    Text("Excellent · \(questVM.score) out of \(questVM.quest.count) questions · you made it!")
                         .font(.caption)
                         .textCase(.uppercase)
                         .foregroundStyle(Color("FaintBlue"))
