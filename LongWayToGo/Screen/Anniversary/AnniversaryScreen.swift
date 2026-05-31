@@ -34,7 +34,7 @@ struct AnniversaryScreen: View {
                     HStack {
                         Image(systemName: "1.circle.fill")
                             .foregroundStyle(Color("Cream"))
-                        Image(systemName: "0.circle")
+                        Image(systemName: "0.circle.fill")
                             .foregroundStyle(Color("Cream"))
                         Text("years")
                             .font(.caption)
