@@ -17,14 +17,15 @@ struct HomeScreen: View {
     // MARK: - State
     private var appPositions: [(style: PositionStyle, size: PositionSize, animate: Bool, label: String)] = [
         (.secondary, .large, true, "Surabaya"),
-        (.tertiary, .small, false, ""),
-        (.tertiary, .small, false, ""),
-        (.tertiary, .small, false, ""),
-        (.tertiary, .small, false, ""),
-        (.tertiary, .small, false, ""),
+        (.inactive, .small, false, ""),
+        (.inactive, .small, false, ""),
+        (.inactive, .small, false, ""),
+        (.inactive, .small, false, ""),
+        (.inactive, .small, false, ""),
         (.primary, .large, false, "Your Position")
     ]
     @State private var planePosition = CGFloat(5) // 1 - 5, works backward
+    @State private var answering: Bool = false
     
     var body: some View {
         VStack {
@@ -96,7 +97,7 @@ struct HomeScreen: View {
             Spacer()
             
             VStack(alignment: .leading) {
-                Text("First city I ever flew to just to see you for one weekend?")
+                Text(questVM.currentQuest?.description ?? "")
                     .fraunces(18)
                     .foregroundStyle(Color("SkyText"))
                     .padding(.bottom, 4)
@@ -106,8 +107,25 @@ struct HomeScreen: View {
                     .splineSans(12)
                     .padding(.bottom, 16)
                 
-                AppButton(label: "Answer to fly", style: .secondary) {
-                    questVM.progress = 1
+                
+                if answering {
+                    VStack {
+                        ForEach(questVM.currentQuest!.multipleChoice, id: \.self) { choice in
+                            
+                            AppButton(label: choice, style: .tertiary) {
+                                withAnimation(.easeInOut(duration: 0.1)) {
+                                    questVM.answerQuest(answer: choice)
+                                    answering.toggle()
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    AppButton(label: "Answer to fly", style: .secondary) {
+                        withAnimation(.easeInOut(duration: 0.1)) {
+                            answering.toggle()
+                        }
+                    }
                 }
             }
             .padding(24)
@@ -120,8 +138,18 @@ struct HomeScreen: View {
         .padding()
         .padding(.horizontal, 20)
         .onChange(of: questVM.progress) { oldValue, newValue in
+            if oldValue != newValue {
+                withAnimation(.easeInOut(duration: 0.4)) {
+                    planePosition -= 1
+                }
+            }
+            
             if newValue == 1 {
-                pageStateVM.setState(.anniversary)
+                if questVM.score < 3 {
+                    pageStateVM.setState(.failed)
+                } else {
+                    pageStateVM.setState(.anniversary)
+                }
             }
         }
     }

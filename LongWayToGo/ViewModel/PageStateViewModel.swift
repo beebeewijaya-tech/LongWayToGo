@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 enum PageState {
-    case home, plane, anniversary
+    case home, failed, anniversary
 }
 
 

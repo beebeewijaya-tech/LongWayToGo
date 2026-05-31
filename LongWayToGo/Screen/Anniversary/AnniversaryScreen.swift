@@ -9,6 +9,9 @@ import SwiftUI
 
 
 struct AnniversaryScreen: View {
+    // MARK: - ViewModel
+    @EnvironmentObject private var pageStateVM: PageStateViewModel
+    @EnvironmentObject private var questVM: QuestViewModel
     
     // MARK: - State
     @State private var isPulse = false

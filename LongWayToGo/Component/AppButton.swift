@@ -17,7 +17,7 @@ enum ButtonStyle {
         case .secondary:
             return Color("HerRose")
         case .tertiary:
-            return Color("DepartureTeal")
+            return Color("MapNavy")
         }
     }
     
@@ -28,7 +28,29 @@ enum ButtonStyle {
         case .secondary:
             return .white
         case .tertiary:
-            return .white
+            return Color("HerRose")
+        }
+    }
+    
+    var borderColor: Color {
+        switch self {
+        case .primary:
+            return .clear
+        case .secondary:
+            return .clear
+        case .tertiary:
+            return Color("HerRose")
+        }
+    }
+    
+    var borderWidth: CGFloat {
+        switch self {
+        case .primary:
+            return 0
+        case .secondary:
+            return 0
+        case .tertiary:
+            return 1
         }
     }
 }
@@ -54,6 +76,10 @@ struct AppButton: View {
             .padding(8)
             .background(style.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(style.borderColor, lineWidth: style.borderWidth)
+            )
             .shadow(radius: 12)
         }
     }

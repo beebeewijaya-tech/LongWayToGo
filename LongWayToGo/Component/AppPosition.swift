@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum PositionStyle {
-    case primary, secondary, tertiary
+    case primary, secondary, tertiary, inactive
     
     var color: Color {
         switch self {
@@ -18,6 +18,8 @@ enum PositionStyle {
             return Color("HerRose")
         case .tertiary:
             return Color("RouteGold")
+        case .inactive:
+            return Color("LockedDot")
         }
     }
 }
