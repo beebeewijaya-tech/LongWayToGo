@@ -18,7 +18,7 @@ struct Quest: Identifiable {
 }
 
 class QuestViewModel: ObservableObject {
-    @Published var quest: [Quest] = [
+    private let questionBanks: [Quest] = [
         Quest(
             title: "Leg 1 · The Way to Your Heart",
             description: "What's my all-time favorite food?",
@@ -69,15 +69,70 @@ class QuestViewModel: ObservableObject {
                 "Parking",
             ]
         ),
+        Quest(
+            title: "Leg 6 · The Morning Ritual",
+            description: "What's the first thing I do every morning?",
+            corectAnswer: "Check my phone",
+            multipleChoice: [
+                "Check my phone",
+                "Make coffee",
+                "Go for a walk"
+            ]
+        ),
+        Quest(
+            title: "Leg 7 · Who do i heard?",
+            description: "Are you able to guess my favorite musician?",
+            corectAnswer: "Chester Benington",
+            multipleChoice: [
+                "Chester Benington",
+                "Michael Jackson",
+                "Bruno Mars"
+            ]
+        ),
+        Quest(
+            title: "Leg 8 · Dream Destination",
+            description: "Where do I most want to travel next?",
+            corectAnswer: "Japan",
+            multipleChoice: [
+                "Japan",
+                "German",
+                "China"
+            ]
+        ),
+        Quest(
+            title: "Leg 9 · Secret Skill",
+            description: "What's a hidden talent of mine you've discovered?",
+            corectAnswer: "Ability to make someone angry",
+            multipleChoice: [
+                "Ability to make someone angry",
+                "Calculative and genius",
+                "Funny as hell"
+            ]
+        ),
+        Quest(
+            title: "Leg 10 · The Late-Night Craving",
+            description: "What do I always want to eat after midnight?",
+            corectAnswer: "Instant noodles",
+            multipleChoice: [
+                "Instant noodles",
+                "Satay",
+                "Nasi goreng"
+            ]
+        ),
     ]
+    @Published var quest: [Quest] = []
     @Published var progress: CGFloat = 0.0
     @Published var score: Int = 0
     
+    init() {
+        quest = Array(questionBanks.shuffled().prefix(5))
+    }
+
     var currentQuest: Quest? {
         let q = quest.first(where: { $0.correct == nil})
         return q
     }
-    
+
     func answerQuest(answer: String) {
         guard answer != "" else { return }
         guard let q = quest.firstIndex(where: { $0.correct == nil }) else { return }
@@ -86,15 +141,11 @@ class QuestViewModel: ObservableObject {
         quest[q].correct = correct
         score = correct ? score + 1 : score
         
-        progress += 0.2
+        progress += 1.0 / CGFloat(quest.count)
     }
     
     func reset() {
-        quest = quest.map {
-            var quest = $0
-            quest.correct = nil
-            return quest
-        }
+        quest = Array(questionBanks.shuffled().prefix(5))
         progress = 0.0
         score = 0
     }

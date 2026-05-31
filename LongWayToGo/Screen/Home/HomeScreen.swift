@@ -38,6 +38,7 @@ struct HomeScreen: View {
                 Text("Leg \(questVM.getCurrentProgress()) · \(questVM.currentQuest?.title ?? "")")
                     .splineSans(16)
                     .foregroundStyle(Color("Dusk"))
+                    .multilineTextAlignment(.leading)
             }
             .padding(.bottom, 12)
             
@@ -101,13 +102,9 @@ struct HomeScreen: View {
                     .fraunces(18)
                     .foregroundStyle(Color("SkyText"))
                     .padding(.bottom, 4)
-                
-                Text("get it right and the plane moves one leg closer 😏")
-                    .foregroundStyle(Color("Dusk"))
-                    .splineSans(12)
-                    .padding(.bottom, 16)
-                
-                
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+
                 if answering {
                     VStack {
                         ForEach(questVM.currentQuest!.multipleChoice, id: \.self) { choice in
@@ -121,6 +118,11 @@ struct HomeScreen: View {
                         }
                     }
                 } else {
+                    Text("get it right and the plane moves one leg closer 😏")
+                        .foregroundStyle(Color("Dusk"))
+                        .splineSans(12)
+                        .padding(.bottom, 16)
+                    
                     AppButton(label: "Answer to fly", style: .secondary) {
                         withAnimation(.easeInOut(duration: 0.1)) {
                             answering.toggle()
@@ -128,6 +130,7 @@ struct HomeScreen: View {
                     }
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(24)
             .overlay {
                 RoundedRectangle(cornerRadius: 10)
