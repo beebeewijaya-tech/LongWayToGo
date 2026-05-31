@@ -20,9 +20,9 @@ struct Quest: Identifiable {
 class QuestViewModel: ObservableObject {
     @Published var quest: [Quest] = [
         Quest(
-            title: "Leg 1 · Food",
+            title: "Leg 1 · The Way to Your Heart",
             description: "What's my all-time favorite food?",
-            corectAnswer: "Pizza",
+            corectAnswer: "Yong Tau Foo",
             multipleChoice: [
                 "Yong Tau Foo",
                 "Yakiniku",
@@ -30,7 +30,7 @@ class QuestViewModel: ObservableObject {
             ]
         ),
         Quest(
-            title: "Leg 2 · Drink",
+            title: "Leg 2 · First sip",
             description: "What do I order at a coffee shop every single time?",
             corectAnswer: "Americano",
             multipleChoice: [
@@ -40,7 +40,7 @@ class QuestViewModel: ObservableObject {
             ]
         ),
         Quest(
-            title: "Leg 3 · Moment",
+            title: "Leg 3 · Unforgettable story",
             description: "What's the funniest moment in our trip?",
             corectAnswer: "Singapore Universal Incident",
             multipleChoice: [
@@ -50,7 +50,7 @@ class QuestViewModel: ObservableObject {
             ]
         ),
         Quest(
-            title: "Leg 4 · Weekend",
+            title: "Leg 4 · Our Kind of Lazy",
             description: "What's our ideal lazy weekend activity?",
             corectAnswer: "Food Hunting",
             multipleChoice: [
@@ -60,7 +60,7 @@ class QuestViewModel: ObservableObject {
             ]
         ),
         Quest(
-            title: "Leg 5 · Pet peeve",
+            title: "Leg 5 · Our Shared Grudge",
             description: "What's the one thing that always annoys both of us?",
             corectAnswer: "Queue",
             multipleChoice: [
@@ -96,5 +96,12 @@ class QuestViewModel: ObservableObject {
             return quest
         }
         progress = 0.0
+        score = 0
+    }
+    
+    func getCurrentProgress() -> String {
+        let current = Int(progress * CGFloat(quest.count)) + 1
+        let total = quest.count
+        return "\(current) of \(total)"
     }
 }

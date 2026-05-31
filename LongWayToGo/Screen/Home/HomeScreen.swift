@@ -15,7 +15,7 @@ struct HomeScreen: View {
     @EnvironmentObject private var questVM: QuestViewModel
     
     // MARK: - State
-    private var appPositions: [(style: PositionStyle, size: PositionSize, animate: Bool, label: String)] = [
+    @State private var appPositions: [(style: PositionStyle, size: PositionSize, animate: Bool, label: String)] = [
         (.secondary, .large, true, "Surabaya"),
         (.inactive, .small, false, ""),
         (.inactive, .small, false, ""),
@@ -28,14 +28,14 @@ struct HomeScreen: View {
     @State private var answering: Bool = false
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 Text("The Long Way to You")
                     .fraunces(26)
                     .foregroundStyle(Color("SkyText"))
                     .padding(.bottom, 4)
                 
-                Text("Leg 6 of 10 · crossing the South China Sea")
+                Text("Leg \(questVM.getCurrentProgress()) · \(questVM.currentQuest?.title ?? "")")
                     .splineSans(16)
                     .foregroundStyle(Color("Dusk"))
             }
@@ -140,12 +140,13 @@ struct HomeScreen: View {
         .onChange(of: questVM.progress) { oldValue, newValue in
             if oldValue != newValue {
                 withAnimation(.easeInOut(duration: 0.4)) {
+                    appPositions[Int(planePosition)].style = .tertiary
                     planePosition -= 1
                 }
             }
             
             if newValue == 1 {
-                if questVM.score < 3 {
+                if questVM.score < 4 {
                     pageStateVM.setState(.failed)
                 } else {
                     pageStateVM.setState(.anniversary)
